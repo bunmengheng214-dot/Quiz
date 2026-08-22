@@ -1,0 +1,11 @@
+{
+  "name": "physics-quiz-vscode-project",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node --check api/sheets.js"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}

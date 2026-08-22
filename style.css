@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap');
+        
+        body { 
+            font-family: 'Battambang', sans-serif; 
+            background-color: #f0f4f8; 
+            margin: 0; 
+            padding: 20px; 
+            color: #333;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
+        h1 { color: #1a73e8; text-align: center; border-bottom: 2px solid #e8eaed; padding-bottom: 15px; }
+        h2 { color: #202124; text-align: center; }
+        .hidden { display: none !important; }
+        
+        /* Form & Buttons */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input[type="text"], input[type="password"], textarea, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid #ccc; 
+            border-radius: 6px; 
+            box-sizing: border-box; 
+            font-family: 'Battambang', sans-serif;
+            font-size: 16px;
+        }
+        textarea { resize: vertical; min-height: 60px; }
+        .btn { 
+            padding: 12px 24px; 
+            background: #1a73e8; 
+            color: white; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-family: 'Battambang', sans-serif;
+            transition: background 0.3s;
+            width: 100%;
+        }
+        .btn:hover { background: #1557b0; }
+        .btn-teacher { background: #34a853; margin-top: 15px; }
+        .btn-teacher:hover { background: #2b803e; }
+        .btn-danger { background: #ea4335; width: auto; }
+        .btn-danger:hover { background: #c5221f; }
+        .btn-secondary { background: #5f6368; width: auto; }
+        .btn-secondary:hover { background: #3f4448; }
+        .btn-small { padding: 8px 14px; font-size: 14px; width: auto; margin-left: 8px; }
+        
+        /* Quiz Styling */
+        .question-card { 
+            background: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            border-left: 5px solid #1a73e8;
+        }
+        .question-title { font-weight: bold; margin-top: 0; font-size: 18px; }
+        .options { margin-top: 15px; }
+        .option-label { 
+            display: block; 
+            padding: 10px 15px; 
+            background: white; 
+            border: 1px solid #dadce0; 
+            border-radius: 6px; 
+            margin-bottom: 10px; 
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .option-label:hover { background: #f1f3f4; }
+        input[type="radio"] { margin-right: 10px; transform: scale(1.2); }
+        
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #dadce0; padding: 12px; text-align: left; }
+        th { background-color: #f1f3f4; color: #202124; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        
+        .score-display { text-align: center; font-size: 48px; color: #34a853; font-weight: bold; margin: 20px 0; }
+        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+
+        /* Tabs */
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e8eaed; }
+        .tab-btn {
+            padding: 10px 18px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-family: 'Battambang', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            color: #5f6368;
+        }
+        .tab-btn.active { color: #1a73e8; border-bottom-color: #1a73e8; font-weight: bold; }
+        .tab-content.hidden { display: none; }
+
+        /* Exercise manager */
+        .option-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .option-row span { font-weight: bold; width: 20px; }
+        .option-row input[type="radio"] { transform: scale(1.1); margin: 0; }
+        .manage-card { border-left-color: #34a853; }
+        .manage-card .question-title { font-size: 16px; }
+        .correct-tag { display: inline-block; background: #34a853; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px; }
+        .card-actions { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+        .empty-state { text-align: center; color: #5f6368; padding: 20px; }
+
+        /* Exercise selection cards (student-facing) */
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 10px;
+        }
+        @media (min-width: 560px) {
+            .exercise-grid { grid-template-columns: 1fr 1fr; }
+        }
+        .exercise-select-card {
+            background: #f1f3f4;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .exercise-icon {
+            width: 56px;
+            height: 56px;
+            border: 2px solid #202124;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            flex-shrink: 0;
+        }
+        .exercise-select-card .exercise-title { font-weight: bold; font-size: 18px; color: #202124; }
+        .exercise-select-card .exercise-meta { color: #5f6368; font-size: 14px; margin-top: -8px; }
+        .exercise-start-btn {
+            background: white;
+            color: #1a73e8;
+            border: 2px solid #1a73e8;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-family: 'Battambang', sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        .exercise-start-btn:hover { background: #1a73e8; color: white; }
+
+        /* Exercise manager cards (teacher-facing) */
+        .exercise-manage-card {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            background: #e1e3e6;
+            border-radius: 14px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+        }
+        .exercise-manage-left { display: flex; align-items: center; gap: 12px; }
+        .exercise-clip-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .exercise-manage-title { font-weight: bold; font-size: 18px; color: #202124; }
+        .exercise-manage-meta { color: #5f6368; font-size: 13px; }
+        .exercise-manage-icons { display: flex; align-items: center; gap: 4px; }
+        .icon-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+        }
+        .icon-btn:hover { background: rgba(0,0,0,0.06); }
+        .exercise-enter-btn {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 22px;
+            font-family: 'Battambang', sans-serif;
+            font-size: 15px;
+            font-weight: bold;
+            color: #202124;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        .exercise-enter-btn:hover { background: #f1f3f4; }
+        .exercise-rename-row { display: flex; gap: 10px; align-items: center; flex: 1; min-width: 200px; width: 100%; margin-top: 10px; }
