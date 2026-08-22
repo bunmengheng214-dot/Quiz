@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>physics quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Login Section -->
+        <div id="login-section">
+            <h1>physics quiz​</h1>
+            <div class="question-card" style="border-left-color: #34a853;">
+                <h2>សូមចុះឈ្មោះមុនពេលធ្វើការប្រឡង</h2>
+                <div class="form-group">
+                    <label for="student-name">បញ្ចូលឈ្មោះរបស់អ្នក៖</label>
+                    <input type="text" id="student-name" placeholder="ឧទាហរណ៍៖ សុខ សាន្ត...">
+                </div>
+                <div class="form-group">
+                    <label for="student-class">ជ្រើសរើសថ្នាក់៖</label>
+                    <select id="student-class">
+                        <option value="">-- ជ្រើសរើសថ្នាក់ --</option>
+                        <option value="10">ថ្នាក់ទី 10</option>
+                        <option value="11">ថ្នាក់ទី 11</option>
+                        <option value="12">ថ្នាក់ទី 12</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="goToExerciseSelect()">ចូលរួមធ្វើលំហាត់</button>
+            </div>
+            <button class="btn btn-teacher" onclick="showTeacherLogin()">👨‍🏫 ចូលគណនីគ្រូ (មើលពិន្ទុ / កែលំហាត់)</button>
+        </div>
+
+        <!-- Teacher Login Section -->
+        <div id="teacher-login-section" class="hidden">
+            <h1>👨‍🏫 ចូលគណនីគ្រូ</h1>
+            <div class="question-card" style="border-left-color: #34a853;">
+                <div class="form-group">
+                    <label for="teacher-password">លេខកូដសម្ងាត់គ្រូ៖</label>
+                    <input type="password" id="teacher-password" placeholder="បញ្ចូលលេខកូដសម្ងាត់..." onkeydown="if(event.key==='Enter'){submitTeacherLogin();}">
+                </div>
+                <p id="teacher-login-error" class="hidden" style="color: #ea4335; font-weight: bold;">លេខកូដមិនត្រឹមត្រូវទេ! សូមព្យាយាមម្តងទៀត។</p>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn" onclick="submitTeacherLogin()">ចូល</button>
+                    <button class="btn btn-secondary" onclick="cancelTeacherLogin()">ត្រឡប់ក្រោយ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise Selection (Student) -->
+        <div id="exercise-select-section" class="hidden">
+            <h1>ជ្រើសរើសលំហាត់</h1>
+            <h3 id="select-welcome-message" style="color: #5f6368; text-align: center;"></h3>
+            <div class="exercise-grid" id="exercise-grid"></div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz-section" class="hidden">
+            <h1 id="quiz-exercise-title">សំណួរត្រីកោណមាត្រ</h1>
+            <h3 id="welcome-message" style="color: #5f6368;"></h3>
+            <p id="quiz-instructions" style="color: #ea4335;"></p>
+
+            <form id="quiz-form">
+                <div id="quiz-questions-container"></div>
+                <button type="button" class="btn" onclick="submitQuiz()">បញ្ជូនចម្លើយ</button>
+            </form>
+        </div>
+
+        <!-- Result Section -->
+        <div id="result-section" class="hidden">
+            <h1>លទ្ធផលរបស់អ្នក</h1>
+            <div class="question-card" style="text-align: center; border-left-color: #fbbc04;">
+                <h3 id="result-name"></h3>
+                <div class="score-display" id="score-display">0/100</div>
+                <p>ពិន្ទុរបស់អ្នកត្រូវបានបញ្ជូនទៅកាន់គ្រូដោយស្វ័យប្រវត្តិ។</p>
+                <button class="btn btn-secondary" style="margin-top: 15px;" onclick="location.reload()">ត្រឡប់ទៅទំព័រដើម</button>
+            </div>
+        </div>
+
+        <!-- Teacher Dashboard -->
+        <div id="teacher-section" class="hidden">
+            <div class="header-flex">
+                <h1 style="margin: 0; border: none;">ផ្ទាំងគ្រប់គ្រងគ្រូ</h1>
+                <div>
+                    <button class="btn btn-secondary" onclick="location.reload()">ចាកចេញ</button>
+                </div>
+            </div>
+
+            <div class="question-card" style="border-left-color:#fbbc04;">
+                <p style="margin:0; color:#5f6368;">⚠️ កំណែនេះមិនប្រើម៉ាស៊ីនមេទេ ទិន្នន័យទាំងអស់ (លំហាត់ / ពិន្ទុ) ត្រូវបានរក្សាទុកនៅលើកម្មវិធីរុករកតែប៉ុណ្ណោះ។ ប្រសិនបើសិស្សប្រើឧបករណ៍ផ្សេងគ្នា ទិន្នន័យរបស់ពួកគេនឹងមិនបង្ហាញនៅទីនេះទេ លុះត្រាតែអ្នកនាំចូល (Import) ពួកគេ។ សូមប្រើប៊ូតុង "នាំចេញទិន្នន័យ" ជាទៀងទាត់ដើម្បីបម្រុងទុក។</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" id="tab-btn-scores" onclick="switchTeacherTab('scores')">📊 តារាងពិន្ទុ</button>
+                <button class="tab-btn" id="tab-btn-exercises" onclick="switchTeacherTab('exercises')">🛠️ គ្រប់គ្រងលំហាត់</button>
+                <button class="tab-btn" id="tab-btn-data" onclick="switchTeacherTab('data')">💾 ទិន្នន័យ</button>
+            </div>
+
+            <!-- Scores Tab -->
+            <div id="tab-scores" class="tab-content">
+                <div class="header-flex">
+                    <div>
+                        <label for="scores-class-filter" style="font-weight:normal; margin-right:6px;">ត្រងតាមថ្នាក់៖</label>
+                        <select id="scores-class-filter" onchange="loadTeacherData()" style="width:auto; display:inline-block;">
+                            <option value="all">គ្រប់ថ្នាក់ទាំងអស់</option>
+                            <option value="10">ថ្នាក់ទី 10</option>
+                            <option value="11">ថ្នាក់ទី 11</option>
+                            <option value="12">ថ្នាក់ទី 12</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary btn-small" onclick="exportScoresCsv()">⬇️ CSV</button>
+                        <button class="btn btn-danger btn-small" onclick="clearData()">លុបទិន្នន័យពិន្ទុចោល</button>
+                    </div>
+                </div>
+                <table id="score-table">
+                    <thead>
+                        <tr>
+                            <th>ល.រ</th>
+                            <th>ឈ្មោះសិស្ស</th>
+                            <th>ថ្នាក់</th>
+                            <th>លំហាត់</th>
+                            <th>ពិន្ទុ</th>
+                            <th>កាលបរិច្ឆេទធ្វើតេស្ត</th>
+                        </tr>
+                    </thead>
+                    <tbody id="score-body">
+                        <!-- Data will be populated here by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Exercises Tab -->
+            <div id="tab-exercises" class="tab-content hidden">
+
+                <!-- Exercise List View -->
+                <div id="exercise-list-view">
+                    <div class="question-card manage-card">
+                        <h2 style="margin-top:0;">➕ បង្កើតលំហាត់ថ្មី</h2>
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label for="new-exercise-title">ឈ្មោះលំហាត់៖</label>
+                            <input type="text" id="new-exercise-title" placeholder="ឧទាហរណ៍៖ លំហាត់ទី 3">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 10px;">
+                            <label for="new-exercise-class">សម្រាប់ថ្នាក់៖</label>
+                            <select id="new-exercise-class">
+                                <option value="all">គ្រប់ថ្នាក់ទាំងអស់</option>
+                                <option value="10">ថ្នាក់ទី 10</option>
+                                <option value="11">ថ្នាក់ទី 11</option>
+                                <option value="12">ថ្នាក់ទី 12</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-teacher" style="margin-top:0;" onclick="createExercise()">បង្កើតលំហាត់</button>
+                        <p style="color:#5f6368; font-size:13px; margin-top:10px; margin-bottom:0;">💡 ពិន្ទុសរុបនៃលំហាត់ត្រូវបានគណនាដោយស្វ័យប្រវត្តិ ដោយផ្អែកលើពិន្ទុដែលអ្នកកំណត់ឱ្យសំណួរនីមួយៗ (មើលទំព័រកែសំណួរ)។</p>
+                    </div>
+
+                    <div class="header-flex" style="margin-bottom: 10px;">
+                        <h2 style="margin:0;">បញ្ជីលំហាត់ (<span id="exercise-count">0</span>)</h2>
+                        <div>
+                            <label for="manage-class-filter" style="font-weight:normal; margin-right:6px;">ត្រងតាមថ្នាក់៖</label>
+                            <select id="manage-class-filter" onchange="renderExerciseManageList()" style="width:auto; display:inline-block;">
+                                <option value="all">គ្រប់ថ្នាក់ទាំងអស់</option>
+                                <option value="10">ថ្នាក់ទី 10</option>
+                                <option value="11">ថ្នាក់ទី 11</option>
+                                <option value="12">ថ្នាក់ទី 12</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="exercise-manage-list"></div>
+                </div>
+
+                <!-- Question Editor View (for one exercise) -->
+                <div id="question-editor-view" class="hidden">
+                    <button class="btn btn-secondary" style="width:auto; margin-bottom: 15px;" onclick="backToExerciseList()">⬅ ត្រឡប់ទៅបញ្ជីលំហាត់</button>
+                    <h2 id="question-editor-title" style="text-align:left;"></h2>
+
+                    <div class="question-card manage-card">
+                        <h3 style="margin-top:0;" id="question-form-title">➕ បន្ថែមសំណួរថ្មី</h3>
+                        <input type="hidden" id="edit-question-id" value="">
+                        <div class="form-group">
+                            <label for="q-text">អត្ថបទសំណួរ៖</label>
+                            <textarea id="q-text" placeholder="វាយសំណួរនៅទីនេះ..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>ជម្រើសចម្លើយ (សម្គាល់ចម្លើយត្រឹមត្រូវ ហើយកំណត់ពិន្ទុសម្រាប់ជម្រើសនីមួយៗ)៖</label>
+                            <div class="option-row">
+                                <span>A</span>
+                                <input type="radio" name="correct-option" value="A">
+                                <input type="text" id="opt-A" placeholder="ចម្លើយ A" style="flex:1;">
+                                <input type="text" id="opt-A-points" placeholder="ពិន្ទុ" value="1" style="width: 60px; text-align:center; flex:none;">
+                            </div>
+                            <div class="option-row">
+                                <span>B</span>
+                                <input type="radio" name="correct-option" value="B">
+                                <input type="text" id="opt-B" placeholder="ចម្លើយ B" style="flex:1;">
+                                <input type="text" id="opt-B-points" placeholder="ពិន្ទុ" value="0" style="width: 60px; text-align:center; flex:none;">
+                            </div>
+                            <div class="option-row">
+                                <span>C</span>
+                                <input type="radio" name="correct-option" value="C">
+                                <input type="text" id="opt-C" placeholder="ចម្លើយ C" style="flex:1;">
+                                <input type="text" id="opt-C-points" placeholder="ពិន្ទុ" value="0" style="width: 60px; text-align:center; flex:none;">
+                            </div>
+                            <div class="option-row">
+                                <span>D</span>
+                                <input type="radio" name="correct-option" value="D">
+                                <input type="text" id="opt-D" placeholder="ចម្លើយ D" style="flex:1;">
+                                <input type="text" id="opt-D-points" placeholder="ពិន្ទុ" value="0" style="width: 60px; text-align:center; flex:none;">
+                            </div>
+                            <p style="color:#5f6368; font-size:13px; margin: 8px 0 0 0;">💡 ធម្មតាចម្លើយត្រឹមត្រូវគួរមានពិន្ទុខ្ពស់បំផុត ប៉ុន្តែអ្នកអាចផ្តល់ពិន្ទុមួយចំនួនដល់ចម្លើយផ្សេងទៀតបាន (ពិន្ទុផ្នែក)។</p>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button class="btn btn-teacher" style="margin-top:0;" onclick="saveQuestionFromForm()" id="save-question-btn">រក្សាទុកសំណួរ</button>
+                            <button class="btn btn-secondary hidden" style="margin-top:0;" id="cancel-edit-btn" onclick="resetQuestionForm()">បោះបង់កែប្រែ</button>
+                        </div>
+                    </div>
+
+                    <h3>បញ្ជីសំណួរបច្ចុប្បន្ន (<span id="question-count">0</span>)</h3>
+                    <div id="question-list"></div>
+                </div>
+            </div>
+
+            <!-- Data (Export/Import) Tab -->
+            <div id="tab-data" class="tab-content hidden">
+                <div class="question-card manage-card">
+                    <h2 style="margin-top:0;">⬇️ នាំចេញទិន្នន័យ (Export)</h2>
+                    <p style="color:#5f6368;">ទាញយកឯកសារបម្រុងទុកមួយ (JSON) មានលំហាត់ទាំងអស់ និងពិន្ទុសិស្សទាំងអស់ពីឧបករណ៍នេះ។ ប្រើវាដើម្បីផ្ទេរទិន្នន័យទៅឧបករណ៍ផ្សេង ឬដើម្បីបម្រុងទុក។</p>
+                    <button class="btn btn-teacher" style="margin-top:0;" onclick="exportAllData()">នាំចេញទិន្នន័យទាំងអស់ (JSON)</button>
+                </div>
+                <div class="question-card manage-card">
+                    <h2 style="margin-top:0;">⬆️ នាំចូលទិន្នន័យ (Import)</h2>
+                    <p style="color:#5f6368;">ជ្រើសរើសឯកសារ JSON ដែលបាននាំចេញពីឧបករណ៍មួយផ្សេងទៀត។ លំហាត់ថ្មីៗនិងពិន្ទុនឹងបញ្ចូលបន្ថែម (មិនលុបទិន្នន័យបច្ចុប្បន្នទេ)។</p>
+                    <input type="file" id="import-file-input" accept="application/json" style="margin-bottom:12px;">
+                    <button class="btn btn-teacher" style="margin-top:0;" onclick="importAllData()">នាំចូលទិន្នន័យ</button>
+                </div>
+                <div class="question-card manage-card">
+                    <h2 style="margin-top:0;">🔑 ប្តូរលេខកូដសម្ងាត់គ្រូ</h2>
+                    <div class="form-group" style="margin-bottom:10px;">
+                        <input type="text" id="new-teacher-password" placeholder="លេខកូដសម្ងាត់ថ្មី">
+                    </div>
+                    <button class="btn btn-teacher" style="margin-top:0;" onclick="changeTeacherPassword()">រក្សាទុកលេខកូដថ្មី</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ================= Local storage + Google Sheets sync =================
+        // The app first uses local browser storage for fast offline access,
+        // and also syncs exercise data to the Google Sheet backend when a
+        // Google Apps Script web app is available.
+        const LS_EXERCISES = 'pq_exercises_v1';
+        const LS_SCORES_PREFIX = 'pq_scores_v1_'; // + '10' | '11' | '12' | 'other'
+        const LS_TEACHER_PASSWORD = 'pq_teacher_password_v1';
+        const DEFAULT_TEACHER_PASSWORD = '123456';
+
+        function uid_(prefix) {
+            return prefix + '_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
+        }
+
+        function defaultQuestions_() {
+            return [
+                { id: 'q1', text: '១. ត្រីកោណកែងមួយមានអ៊ីប៉ូតេនុសប្រវែង 10cm និងមុំមួយ 30°។ តើជ្រុងឈមនៃមុំនោះមានប្រវែងប៉ុន្មាន?', options: { A: '5cm', B: '10cm', C: '8.66cm', D: '20cm' }, correct: 'A', optionPoints: { A: 1, B: 0, C: 0, D: 0 } },
+                { id: 'q2', text: '២. ត្រីកោណកែងមួយមានជ្រុងជាប់មុំ 45° ប្រវែង 8cm។ គណនាប្រវែងជ្រុងឈមនៃមុំនោះ។', options: { A: '4cm', B: '8cm', C: '16cm', D: '11.3cm' }, correct: 'B', optionPoints: { A: 0, B: 1, C: 0, D: 0 } },
+                { id: 'q3', text: '៣. ត្រីកោណកែងមួយមានជ្រុងឈមប្រវែង 6cm និងអ៊ីប៉ូតេនុសប្រវែង 12cm។ គណនារង្វាស់មុំឈមនឹងជ្រុងនោះ។', options: { A: '30°', B: '45°', C: '60°', D: '90°' }, correct: 'A', optionPoints: { A: 1, B: 0, C: 0, D: 0 } },
+                { id: 'q4', text: '៤. ត្រីកោណកែង ABC កែងត្រង់ A មានជ្រុងជាប់ AB = 3cm និងជ្រុងឈម AC = 4cm (ធៀបនឹងមុំ B)។ តើតម្លៃនៃ tan(B) ស្មើនឹងប៉ុន្មាន?', options: { A: '3/4', B: '4/3', C: '3/5', D: '4/5' }, correct: 'B', optionPoints: { A: 0, B: 1, C: 0, D: 0 } },
+                { id: 'q5', text: '៥. ត្រីកោណកែងមួយមានមុំមួយ 60° និងជ្រុងឈមមានប្រវែង 10√3 cm។ រកប្រវែងជ្រុងជាប់។', options: { A: '10 cm', B: '20 cm', C: '5 cm', D: '10√2 cm' }, correct: 'A', optionPoints: { A: 1, B: 0, C: 0, D: 0 } }
+            ];
+        }
+
+        function saveExercisesToStorage_(exercises) {
+            localStorage.setItem(LS_EXERCISES, JSON.stringify(exercises));
+            if (window.google && window.google.script && window.google.script.run && typeof window.google.script.run.saveExercisesServer === 'function') {
+                window.google.script.run
+                    .withSuccessHandler(() => console.log('Exercises synced to Google Sheet.'))
+                    .withFailureHandler(() => console.warn('Exercises local sync to Google Sheets failed.'))
+                    .saveExercisesServer(exercises);
+            }
+        }
+
+        function loadExercises_() {
+            try {
+                const raw = localStorage.getItem(LS_EXERCISES);
+                if (!raw) {
+                    const seeded = [{
+                        id: uid_('ex'),
+                        title: 'លំហាត់ទី 1',
+                        questions: defaultQuestions_(),
+                        createdAt: new Date().toISOString(),
+                        targetClass: 'all'
+                    }];
+                    localStorage.setItem(LS_EXERCISES, JSON.stringify(seeded));
+                    if (window.google && window.google.script && window.google.script.run && typeof window.google.script.run.saveExercisesServer === 'function') {
+                        window.google.script.run
+                            .withFailureHandler(() => console.warn('Initial seed sync to Google Sheets failed.'))
+                            .saveExercisesServer(seeded);
+                    }
+                    return seeded;
+                }
+
+                const parsed = JSON.parse(raw);
+                if (window.google && window.google.script && window.google.script.run && typeof window.google.script.run.getExercisesServer === 'function') {
+                    window.google.script.run
+                        .withSuccessHandler((result) => {
+                            if (result && Array.isArray(result.exercises) && result.exercises.length > 0) {
+                                localStorage.setItem(LS_EXERCISES, JSON.stringify(result.exercises));
+                                refreshExercisesCache();
+                            }
+                        })
+                        .withFailureHandler(() => console.warn('Google Sheets exercise load failed; using local copy.'))
+                        .getExercisesServer();
+                }
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                console.warn('Failed to load exercises from storage:', e);
+                return [];
+            }
+        }
+
+        function normalizeStudentClass_(cls) {
+            const allowed = ['10', '11', '12'];
+            const val = String(cls || '').trim();
+            return allowed.indexOf(val) >= 0 ? val : 'other';
+        }
+
+        function normalizeTargetClass_(cls) {
+            const allowed = ['all', '10', '11', '12'];
+            const val = String(cls || 'all').trim();
+            return allowed.indexOf(val) >= 0 ? val : 'all';
+        }
+
+        function loadScoresForClass_(cls) {
+            const key = LS_SCORES_PREFIX + normalizeStudentClass_(cls);
+            try {
+                const raw = localStorage.getItem(key);
+                const parsed = raw ? JSON.parse(raw) : [];
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveScoresForClass_(cls, records) {
+            const key = LS_SCORES_PREFIX + normalizeStudentClass_(cls);
+            localStorage.setItem(key, JSON.stringify(records));
+        }
+
+        function loadAllScores_() {
+            let all = [];
+            ['10', '11', '12', 'other'].forEach(cls => {
+                loadScoresForClass_(cls).forEach(r => all.push(Object.assign({ studentClass: cls }, r)));
+            });
+            return all;
+        }
+
+        function getTeacherPassword_() {
+            if (window.google && window.google.script && window.google.script.run && typeof window.google.script.run.getTeacherPasswordServer === 'function') {
+                const remoteValue = localStorage.getItem(LS_TEACHER_PASSWORD) || DEFAULT_TEACHER_PASSWORD;
+                if (remoteValue !== DEFAULT_TEACHER_PASSWORD || localStorage.getItem(LS_TEACHER_PASSWORD)) {
+                    return remoteValue;
+                }
+                return remoteValue;
+            }
+            return localStorage.getItem(LS_TEACHER_PASSWORD) || DEFAULT_TEACHER_PASSWORD;
+        }
+
+        function callScoreStorage_(studentName, exerciseTitle, score, studentClass) {
+            return new Promise((resolve, reject) => {
+                if (window.google && window.google.script && window.google.script.run && typeof window.google.script.run.saveScoreServer === 'function') {
+                    window.google.script.run
+                        .withSuccessHandler((result) => resolve(result || { ok: true }))
+                        .withFailureHandler((err) => {
+                            console.warn('Google Sheet score save failed, falling back to local storage:', err);
+                            resolve(saveScoreLocally_(studentName, exerciseTitle, score, studentClass));
+                        })
+                        .saveScoreServer(studentName, exerciseTitle, score, studentClass);
+                    return;
+                }
+                resolve(saveScoreLocally_(studentName, exerciseTitle, score, studentClass));
+            });
+        }
+
+        function saveScoreLocally_(studentName, exerciseTitle, score, studentClass) {
+            const cls = normalizeStudentClass_(studentClass);
+            const records = loadScoresForClass_(cls);
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('km-KH') + ' ' + now.toLocaleTimeString('km-KH');
+            records.push({
+                no: records.length + 1,
+                name: studentName,
+                examTitle: exerciseTitle,
+                score: Number(score) || 0,
+                date: dateStr
+            });
+            saveScoresForClass_(cls, records);
+            return { ok: true, fallback: true };
+        }
+
+        // ================= App state =================
+        let currentStudent = "";
+        let currentStudentClass = "";
+        let currentExercise = null;
+        let currentEditingExerciseId = null;
+        let teacherPassword = "";
+        let exercisesCache = [];
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.innerText = str;
+            return div.innerHTML;
+        }
+
+        function showError(err) {
+            const msg = (err && err.message) ? err.message : String(err);
+            alert(msg);
+        }
+
+        function refreshExercisesCache() {
+            exercisesCache = loadExercises_();
+            return exercisesCache;
+        }
+
+        function getExerciseById(id) {
+            return exercisesCache.find(ex => ex.id === id) || null;
+        }
+
+        // ---------- Student Flow ----------
+        function goToExerciseSelect() {
+            const nameInput = document.getElementById('student-name').value.trim();
+            const classInput = document.getElementById('student-class').value;
+            if (nameInput === "") {
+                alert("សូមបញ្ចូលឈ្មោះរបស់អ្នកជាមុនសិន!");
+                return;
+            }
+            if (classInput === "") {
+                alert("សូមជ្រើសរើសថ្នាក់របស់អ្នកជាមុនសិន!");
+                return;
+            }
+            currentStudent = nameInput;
+            currentStudentClass = classInput;
+
+            refreshExercisesCache();
+
+            document.getElementById('select-welcome-message').innerText = "សួស្តីប្អូន " + currentStudent + " (ថ្នាក់ទី " + currentStudentClass + ") សូមជ្រើសរើសលំហាត់មួយខាងក្រោម៖";
+
+            renderExerciseSelect();
+
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('exercise-select-section').classList.remove('hidden');
+        }
+
+        const clipboardIconSvg = `
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#202124" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="3" width="16" height="19" rx="2"></rect>
+                <rect x="8" y="1.5" width="8" height="3.5" rx="1"></rect>
+                <path d="M7 9 L8 10 L10 8"></path>
+                <line x1="12" y1="9" x2="17" y2="9"></line>
+                <path d="M7 13.5 L8 14.5 L10 12.5"></path>
+                <line x1="12" y1="13.5" x2="17" y2="13.5"></line>
+                <path d="M7 18 L8 19 L10 17"></path>
+                <line x1="12" y1="18" x2="17" y2="18"></line>
+            </svg>`;
+
+        const editIconSvg = `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#202124" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 15 L4 20 L9 20 L19 10 L14 5 L4 15 Z"></path>
+            </svg>`;
+
+        const trashIconSvg = `
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ea4335" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 7 L19 7"></path>
+                <path d="M9 7 L9 4 L15 4 L15 7"></path>
+                <path d="M6 7 L7 21 L17 21 L18 7"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>`;
+
+        function renderExerciseSelect() {
+            const grid = document.getElementById('exercise-grid');
+            grid.innerHTML = "";
+
+            const visibleExercises = exercisesCache.filter(ex => {
+                const cls = ex.targetClass || 'all';
+                return cls === 'all' || cls === currentStudentClass;
+            });
+
+            if (visibleExercises.length === 0) {
+                grid.innerHTML = "<div class='empty-state'>មិនទាន់មានលំហាត់សម្រាប់ថ្នាក់ទី " + escapeHtml(currentStudentClass) + " នៅឡើយទេ។</div>";
+                return;
+            }
+
+            visibleExercises.forEach(ex => {
+                const card = document.createElement('div');
+                card.className = 'exercise-select-card';
+                const qCount = (ex.questions || []).length;
+                const totalScore = totalPointsFor_(ex.questions);
+                card.innerHTML = `
+                    <div class="exercise-icon">${clipboardIconSvg}</div>
+                    <div class="exercise-title">${escapeHtml(ex.title)}</div>
+                    <div class="exercise-meta">${qCount} សំណួរ • ពិន្ទុសរុប ${totalScore}</div>
+                    <button class="exercise-start-btn" onclick="selectExercise('${ex.id}')">ចាប់ផ្តើមធ្វើ</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function selectExercise(id) {
+            const ex = getExerciseById(id);
+            if (!ex) {
+                alert("រកលំហាត់នេះមិនឃើញទេ!");
+                return;
+            }
+            if (!ex.questions || ex.questions.length === 0) {
+                alert("លំហាត់នេះមិនទាន់មានសំណួរនៅឡើយទេ!");
+                return;
+            }
+            currentExercise = ex;
+
+            document.getElementById('quiz-exercise-title').innerText = ex.title;
+            document.getElementById('welcome-message').innerText = "សួស្តីប្អូន " + currentStudent + " សូមធ្វើលំហាត់ខាងក្រោម៖";
+
+            renderQuiz(ex.questions);
+
+            document.getElementById('exercise-select-section').classList.add('hidden');
+            document.getElementById('quiz-section').classList.remove('hidden');
+        }
+
+        // Points awarded for picking a given option on a question. Falls back
+        // to the old single "points" field for questions saved before
+        // per-option points existed (correct=points, others=0).
+        function getOptionPoints_(q, letter) {
+            if (q.optionPoints && q.optionPoints[letter] !== undefined && q.optionPoints[letter] !== null) {
+                const v = Number(q.optionPoints[letter]);
+                return isNaN(v) ? 0 : v;
+            }
+            if (letter === q.correct) return Number(q.points) > 0 ? Number(q.points) : 1;
+            return 0;
+        }
+
+        // Max possible points for a question (used as its "worth" in totals).
+        function getQuestionMaxPoints_(q) {
+            if (q.optionPoints) {
+                const vals = ['A', 'B', 'C', 'D']
+                    .filter(letter => q.options[letter] !== undefined && q.options[letter] !== "")
+                    .map(letter => getOptionPoints_(q, letter));
+                if (vals.length > 0) return Math.max(...vals, 0);
+            }
+            return Number(q.points) > 0 ? Number(q.points) : 1;
+        }
+
+        function totalPointsFor_(questions) {
+            return (questions || []).reduce((sum, q) => sum + getQuestionMaxPoints_(q), 0);
+        }
+
+        function renderQuiz(questions) {
+            const totalPoints = totalPointsFor_(questions);
+
+            document.getElementById('quiz-instructions').innerText =
+                `បញ្ជាក់៖ មានសំណួរសរុប ${questions.length} (សរុប ${totalPoints} ពិន្ទុ)`;
+
+            const container = document.getElementById('quiz-questions-container');
+            container.innerHTML = "";
+
+            questions.forEach((q) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                const maxPoints = getQuestionMaxPoints_(q);
+                let optionsHtml = "";
+                for (const letter of ['A', 'B', 'C', 'D']) {
+                    if (q.options[letter] === undefined || q.options[letter] === "") continue;
+                    optionsHtml += `
+                        <label class="option-label">
+                            <input type="radio" name="${q.id}" value="${letter}"> ${letter}. ${escapeHtml(q.options[letter])}
+                        </label>`;
+                }
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                        <p class="question-title" style="margin:0; flex:1;">${escapeHtml(q.text)}</p>
+                        <span style="color:#5f6368; font-size:13px; white-space:nowrap; padding-top:2px;">${maxPoints} ពិន្ទុ</span>
+                    </div>
+                    <div class="options">${optionsHtml}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        async function submitQuiz() {
+            if (!currentExercise) return;
+            const questions = currentExercise.questions;
+            const form = document.getElementById('quiz-form');
+            let earnedPoints = 0;
+
+            questions.forEach(q => {
+                const selected = form.elements[q.id];
+                let value = "";
+                if (selected) {
+                    value = selected.value || "";
+                }
+                if (value) earnedPoints += getOptionPoints_(q, value);
+            });
+
+            const totalPoints = totalPointsFor_(questions);
+            const score = Math.round(earnedPoints * 100) / 100;
+
+            try {
+                await callScoreStorage_(currentStudent, currentExercise.title, score, currentStudentClass);
+            } catch (err) {
+                alert('មិនអាចរក្សាទុកពិន្ទុបានទេ: ' + (err && err.message ? err.message : err));
+            }
+
+            document.getElementById('quiz-section').classList.add('hidden');
+            document.getElementById('result-section').classList.remove('hidden');
+            document.getElementById('result-name').innerText = "ឈ្មោះ៖ " + currentStudent + " (ថ្នាក់ទី " + currentStudentClass + ")";
+            document.getElementById('score-display').innerText = score + " / " + totalPoints;
+        }
+
+        // ---------- Teacher Login ----------
+        function showTeacherLogin() {
+            document.getElementById('login-section').classList.add('hidden');
+            document.getElementById('teacher-login-section').classList.remove('hidden');
+            document.getElementById('teacher-password').value = "";
+            document.getElementById('teacher-login-error').classList.add('hidden');
+            document.getElementById('teacher-password').focus();
+        }
+
+        function submitTeacherLogin() {
+            const pass = document.getElementById('teacher-password').value;
+            const useRemoteCheck = window.google && window.google.script && window.google.script.run && typeof window.google.script.run.checkTeacherPassword === 'function';
+
+            if (useRemoteCheck) {
+                window.google.script.run
+                    .withSuccessHandler((isValid) => {
+                        if (isValid) {
+                            teacherPassword = pass;
+                            document.getElementById('teacher-login-section').classList.add('hidden');
+                            document.getElementById('teacher-section').classList.remove('hidden');
+                            loadTeacherData();
+                            showExerciseListView();
+                            switchTeacherTab('scores');
+                        } else {
+                            document.getElementById('teacher-login-error').classList.remove('hidden');
+                            document.getElementById('teacher-password').value = "";
+                            document.getElementById('teacher-password').focus();
+                        }
+                    })
+                    .withFailureHandler(() => {
+                        const expected = getTeacherPassword_();
+                        if (pass === expected) {
+                            teacherPassword = pass;
+                            document.getElementById('teacher-login-section').classList.add('hidden');
+                            document.getElementById('teacher-section').classList.remove('hidden');
+                            loadTeacherData();
+                            showExerciseListView();
+                            switchTeacherTab('scores');
+                        } else {
+                            document.getElementById('teacher-login-error').classList.remove('hidden');
+                            document.getElementById('teacher-password').value = "";
+                            document.getElementById('teacher-password').focus();
+                        }
+                    })
+                    .checkTeacherPassword(pass);
+                return;
+            }
+
+            if (pass === getTeacherPassword_()) {
+                teacherPassword = pass;
+                document.getElementById('teacher-login-section').classList.add('hidden');
+                document.getElementById('teacher-section').classList.remove('hidden');
+                loadTeacherData();
+                showExerciseListView();
+                switchTeacherTab('scores');
+            } else {
+                document.getElementById('teacher-login-error').classList.remove('hidden');
+                document.getElementById('teacher-password').value = "";
+                document.getElementById('teacher-password').focus();
+            }
+        }
+
+        function cancelTeacherLogin() {
+            document.getElementById('teacher-login-section').classList.add('hidden');
+            document.getElementById('login-section').classList.remove('hidden');
+        }
+
+        function switchTeacherTab(tab) {
+            document.getElementById('tab-scores').classList.toggle('hidden', tab !== 'scores');
+            document.getElementById('tab-exercises').classList.toggle('hidden', tab !== 'exercises');
+            document.getElementById('tab-data').classList.toggle('hidden', tab !== 'data');
+            document.getElementById('tab-btn-scores').classList.toggle('active', tab === 'scores');
+            document.getElementById('tab-btn-exercises').classList.toggle('active', tab === 'exercises');
+            document.getElementById('tab-btn-data').classList.toggle('active', tab === 'data');
+            if (tab === 'exercises') showExerciseListView();
+            if (tab === 'scores') loadTeacherData();
+        }
+
+        // ---------- Teacher: Scores ----------
+        function normalizeScoreRecord_(record, fallbackClass) {
+            const dateValue = record && (record.Timestamp || record.date || record.createdAt || '');
+            return {
+                name: (record && (record['Student Name'] || record.name || '')) || '-',
+                studentClass: (record && (record.Class || record.studentClass || fallbackClass || '')) || '-',
+                examTitle: (record && (record.Exercise || record.examTitle || '')) || '-',
+                score: Number(record && (record.Score ?? record.score ?? 0)) || 0,
+                date: dateValue ? (typeof dateValue === 'string' ? dateValue : new Date(dateValue).toLocaleString('km-KH')) : '-'
+            };
+        }
+
+        function readTeacherScoreData_() {
+            return new Promise((resolve) => {
+                if (window.google && window.google.script && window.google.script.run && typeof window.google.script.run.getScoresServer === 'function') {
+                    window.google.script.run
+                        .withSuccessHandler((result) => {
+                            if (result && Array.isArray(result.scores)) {
+                                resolve(result.scores.map(row => normalizeScoreRecord_(row, '')));
+                                return;
+                            }
+                            resolve(loadAllScores_().map(r => normalizeScoreRecord_(r, r.studentClass || '')));
+                        })
+                        .withFailureHandler(() => {
+                            resolve(loadAllScores_().map(r => normalizeScoreRecord_(r, r.studentClass || '')));
+                        })
+                        .getScoresServer();
+                    return;
+                }
+
+                resolve(loadAllScores_().map(r => normalizeScoreRecord_(r, r.studentClass || '')));
+            });
+        }
+
+        async function loadTeacherData() {
+            const tbody = document.getElementById('score-body');
+            const filterEl = document.getElementById('scores-class-filter');
+            const filter = filterEl ? filterEl.value : 'all';
+
+            let records = await readTeacherScoreData_();
+            if (filter !== 'all') {
+                records = records.filter(r => String(r.studentClass) === String(filter));
+            }
+
+            tbody.innerHTML = "";
+            if (records.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;'>មិនទាន់មានទិន្នន័យសិស្សនៅឡើយទេ</td></tr>";
+                return;
+            }
+
+            records.forEach((record, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${escapeHtml(record.name)}</td>
+                    <td>${escapeHtml(record.studentClass || '-')}</td>
+                    <td>${escapeHtml(record.examTitle || '-')}</td>
+                    <td><b>${record.score}</b></td>
+                    <td>${escapeHtml(record.date)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function clearData() {
+            if (!confirm("តើអ្នកពិតជាចង់លុបទិន្នន័យសិស្សទាំងអស់មែនទេ?")) return;
+            const filterEl = document.getElementById('scores-class-filter');
+            const filter = filterEl ? filterEl.value : 'all';
+            if (filter === 'all') {
+                ['10', '11', '12', 'other'].forEach(cls => saveScoresForClass_(cls, []));
+            } else {
+                saveScoresForClass_(filter, []);
+            }
+            loadTeacherData();
+        }
+
+        function exportScoresCsv() {
+            const filterEl = document.getElementById('scores-class-filter');
+            const filter = filterEl ? filterEl.value : 'all';
+            const records = filter === 'all'
+                ? loadAllScores_()
+                : loadScoresForClass_(filter).map(r => Object.assign({ studentClass: filter }, r));
+
+            const header = ['No', 'Name', 'Class', 'Exercise', 'Score', 'Date'];
+            const rows = records.map((r, i) => [i + 1, r.name, r.studentClass || '', r.examTitle || '', r.score, r.date]);
+            const csv = [header].concat(rows).map(row =>
+                row.map(cell => '"' + String(cell).replace(/"/g, '""') + '"').join(',')
+            ).join('\r\n');
+
+            const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'scores_' + filter + '_' + Date.now() + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // ---------- Teacher: Data export/import ----------
+        function exportAllData() {
+            const data = {
+                exportedAt: new Date().toISOString(),
+                exercises: loadExercises_(),
+                scores: {
+                    '10': loadScoresForClass_('10'),
+                    '11': loadScoresForClass_('11'),
+                    '12': loadScoresForClass_('12'),
+                    'other': loadScoresForClass_('other')
+                }
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'physics_quiz_backup_' + Date.now() + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function importAllData() {
+            const fileInput = document.getElementById('import-file-input');
+            const file = fileInput.files && fileInput.files[0];
+            if (!file) {
+                alert('សូមជ្រើសរើសឯកសារ JSON សិន!');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+
+                    // Merge exercises by id (existing kept, new ones added).
+                    const existingExercises = loadExercises_();
+                    const existingIds = new Set(existingExercises.map(ex => ex.id));
+                    let addedExercises = 0;
+                    (data.exercises || []).forEach(ex => {
+                        if (!existingIds.has(ex.id)) {
+                            existingExercises.push(ex);
+                            existingIds.add(ex.id);
+                            addedExercises++;
+                        }
+                    });
+                    saveExercisesToStorage_(existingExercises);
+
+                    // Merge scores by appending (renumbering "no" per class).
+                    let addedScores = 0;
+                    ['10', '11', '12', 'other'].forEach(cls => {
+                        const incoming = (data.scores && data.scores[cls]) || [];
+                        if (incoming.length === 0) return;
+                        const existing = loadScoresForClass_(cls);
+                        incoming.forEach(rec => {
+                            existing.push({ no: existing.length + 1, name: rec.name, examTitle: rec.examTitle, score: rec.score, date: rec.date });
+                            addedScores++;
+                        });
+                        saveScoresForClass_(cls, existing);
+                    });
+
+                    alert('នាំចូលបានជោគជ័យ! លំហាត់ថ្មី៖ ' + addedExercises + ', ពិន្ទុថ្មី៖ ' + addedScores);
+                    refreshExercisesCache();
+                    loadTeacherData();
+                    if (!document.getElementById('tab-exercises').classList.contains('hidden')) {
+                        renderExerciseManageList();
+                    }
+                } catch (err) {
+                    alert('ឯកសារមិនត្រឹមត្រូវទេ៖ ' + (err && err.message ? err.message : err));
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function changeTeacherPassword() {
+            const input = document.getElementById('new-teacher-password');
+            const val = input.value.trim();
+            if (val === "") {
+                alert('សូមបញ្ចូលលេខកូដថ្មី!');
+                return;
+            }
+            localStorage.setItem(LS_TEACHER_PASSWORD, val);
+            if (window.google && window.google.script && window.google.script.run && typeof window.google.script.run.saveTeacherPasswordServer === 'function') {
+                window.google.script.run
+                    .withSuccessHandler(() => console.log('Teacher password synced to Google Sheet.'))
+                    .withFailureHandler(() => console.warn('Teacher password sync to Google Sheets failed.'))
+                    .saveTeacherPasswordServer(val);
+            }
+            teacherPassword = val;
+            input.value = "";
+            alert('លេខកូដសម្ងាត់គ្រូត្រូវបានប្តូរដោយជោគជ័យ!');
+        }
+
+        // ---------- Teacher: Exercise List Management ----------
+        function showExerciseListView() {
+            currentEditingExerciseId = null;
+            document.getElementById('exercise-list-view').classList.remove('hidden');
+            document.getElementById('question-editor-view').classList.add('hidden');
+            renderExerciseManageList();
+        }
+
+        function renderExerciseManageList() {
+            refreshExercisesCache();
+            const filterEl = document.getElementById('manage-class-filter');
+            const filter = filterEl ? filterEl.value : 'all';
+
+            const exercises = exercisesCache.filter(ex => {
+                if (filter === 'all') return true;
+                const cls = ex.targetClass || 'all';
+                return cls === filter || cls === 'all';
+            });
+
+            const list = document.getElementById('exercise-manage-list');
+            document.getElementById('exercise-count').innerText = exercises.length;
+            list.innerHTML = "";
+
+            if (exercises.length === 0) {
+                list.innerHTML = "<div class='empty-state'>មិនមានលំហាត់សម្រាប់ការត្រងនេះទេ។</div>";
+                return;
+            }
+
+            exercises.forEach((ex) => {
+                const qCount = (ex.questions || []).length;
+                const totalScore = totalPointsFor_(ex.questions);
+                const classLabel = (ex.targetClass && ex.targetClass !== 'all') ? ('ថ្នាក់ទី ' + ex.targetClass) : 'គ្រប់ថ្នាក់';
+                const row = document.createElement('div');
+                row.className = 'exercise-manage-card';
+                row.innerHTML = `
+                    <div class="exercise-manage-left">
+                        <div class="exercise-clip-icon">${clipboardIconSvg}</div>
+                        <div>
+                            <div class="exercise-manage-title">${escapeHtml(ex.title)}</div>
+                            <div class="exercise-manage-meta">${qCount} សំណួរ • ពិន្ទុសរុប ${totalScore} • ${escapeHtml(classLabel)}</div>
+                        </div>
+                    </div>
+                    <div class="exercise-manage-icons">
+                        <button class="icon-btn" onclick="toggleRename('${ex.id}')" title="ប្តូរឈ្មោះ">${editIconSvg}</button>
+                        <button class="icon-btn" onclick="toggleClassSelector('${ex.id}')" title="ប្តូរថ្នាក់">🏫</button>
+                        <button class="icon-btn" onclick="deleteExercise('${ex.id}')" title="លុប">${trashIconSvg}</button>
+                    </div>
+                    <button class="exercise-enter-btn" onclick="openQuestionEditor('${ex.id}')">កែលំហាត់</button>
+                    <div class="exercise-rename-row hidden" id="rename-row-${ex.id}">
+                        <input type="text" id="rename-input-${ex.id}" value="${escapeHtml(ex.title)}" style="flex:1;">
+                        <button class="btn btn-teacher btn-small" style="margin-top:0;" onclick="saveRename('${ex.id}')">រក្សាទុក</button>
+                    </div>
+                    <div class="exercise-rename-row hidden" id="class-row-${ex.id}">
+                        <select id="class-select-${ex.id}" style="flex:1; min-width: 120px;">
+                            <option value="all">គ្រប់ថ្នាក់</option>
+                            <option value="10">ថ្នាក់ទី 10</option>
+                            <option value="11">ថ្នាក់ទី 11</option>
+                            <option value="12">ថ្នាក់ទី 12</option>
+                        </select>
+                        <button class="btn btn-teacher btn-small" style="margin-top:0;" onclick="saveExerciseClass('${ex.id}')">រក្សាទុក</button>
+                    </div>
+                `;
+
+                const classSelect = document.getElementById('class-select-' + ex.id);
+                if (classSelect) {
+                    classSelect.value = ex.targetClass || 'all';
+                }
+                list.appendChild(row);
+            });
+        }
+
+        function createExercise() {
+            const titleInput = document.getElementById('new-exercise-title');
+            const classInput = document.getElementById('new-exercise-class');
+            const title = titleInput.value.trim();
+            const targetClass = normalizeTargetClass_(classInput.value);
+            if (title === "") {
+                alert("សូមបញ្ចូលឈ្មោះលំហាត់!");
+                return;
+            }
+            const exercises = loadExercises_();
+            exercises.push({
+                id: uid_('ex'),
+                title: title,
+                questions: [],
+                createdAt: new Date().toISOString(),
+                targetClass: targetClass
+            });
+            saveExercisesToStorage_(exercises);
+            titleInput.value = "";
+            classInput.value = "all";
+            renderExerciseManageList();
+        }
+
+        function editExerciseClass(id) {
+            toggleClassSelector(id);
+        }
+
+        function toggleClassSelector(id) {
+            const classRow = document.getElementById('class-row-' + id);
+            const renameRow = document.getElementById('rename-row-' + id);
+            if (classRow) classRow.classList.toggle('hidden');
+            if (renameRow && !renameRow.classList.contains('hidden')) {
+                renameRow.classList.add('hidden');
+            }
+        }
+
+        function saveExerciseClass(id) {
+            const select = document.getElementById('class-select-' + id);
+            if (!select) return;
+            const exercises = loadExercises_();
+            const target = exercises.find(e => e.id === id);
+            if (!target) return;
+            target.targetClass = normalizeTargetClass_(select.value);
+            saveExercisesToStorage_(exercises);
+            renderExerciseManageList();
+        }
+
+        function toggleRename(id) {
+            const row = document.getElementById('rename-row-' + id);
+            if (row) row.classList.toggle('hidden');
+            const classRow = document.getElementById('class-row-' + id);
+            if (classRow && !classRow.classList.contains('hidden')) {
+                classRow.classList.add('hidden');
+            }
+        }
+
+        function saveRename(id) {
+            const input = document.getElementById('rename-input-' + id);
+            const newTitle = input.value.trim();
+            if (newTitle === "") {
+                alert("ឈ្មោះលំហាត់មិនអាចទទេបានទេ!");
+                return;
+            }
+            const exercises = loadExercises_();
+            const target = exercises.find(e => e.id === id);
+            if (!target) return;
+            target.title = newTitle;
+            saveExercisesToStorage_(exercises);
+            renderExerciseManageList();
+        }
+
+        function deleteExercise(id) {
+            if (!confirm("តើអ្នកពិតជាចង់លុបលំហាត់នេះ ព្រមទាំងសំណួរទាំងអស់ក្នុងនោះមែនទេ?")) return;
+            const exercises = loadExercises_().filter(e => e.id !== id);
+            saveExercisesToStorage_(exercises);
+            renderExerciseManageList();
+        }
+
+        // ---------- Teacher: Question Editor (scoped to one exercise) ----------
+        function openQuestionEditor(exerciseId) {
+            currentEditingExerciseId = exerciseId;
+            const ex = getExerciseById(exerciseId);
+            if (!ex) return;
+
+            document.getElementById('exercise-list-view').classList.add('hidden');
+            document.getElementById('question-editor-view').classList.remove('hidden');
+            document.getElementById('question-editor-title').innerText = "កំពុងកែសំណួរសម្រាប់៖ " + ex.title;
+
+            resetQuestionForm();
+            renderQuestionManager();
+        }
+
+        function backToExerciseList() {
+            showExerciseListView();
+        }
+
+        function renderQuestionManager() {
+            const ex = getExerciseById(currentEditingExerciseId);
+            if (!ex) return;
+            const questions = ex.questions || [];
+            const list = document.getElementById('question-list');
+            document.getElementById('question-count').innerText = questions.length;
+            list.innerHTML = "";
+
+            if (questions.length === 0) {
+                list.innerHTML = "<div class='empty-state'>មិនទាន់មានសំណួរនៅឡើយទេ។ សូមបន្ថែមសំណួរខាងលើ។</div>";
+                return;
+            }
+
+            questions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card manage-card';
+                const maxPoints = getQuestionMaxPoints_(q);
+                let optionsHtml = "<ul style='margin: 10px 0 0 0; padding-left: 20px; list-style:none;'>";
+                for (const letter of ['A', 'B', 'C', 'D']) {
+                    if (q.options[letter] === undefined || q.options[letter] === "") continue;
+                    const isCorrect = q.correct === letter;
+                    const optPoints = getOptionPoints_(q, letter);
+                    optionsHtml += `<li style="display:flex; justify-content:space-between; gap:10px; padding: 3px 0;">
+                        <span>${letter}. ${escapeHtml(q.options[letter])}${isCorrect ? "<span class='correct-tag'>ត្រឹមត្រូវ</span>" : ""}</span>
+                        <span style="color:#5f6368; white-space:nowrap;">${optPoints} ពិន្ទុ</span>
+                    </li>`;
+                }
+                optionsHtml += "</ul>";
+
+                card.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+                        <p class="question-title" style="margin:0; flex:1;">${index + 1}. ${escapeHtml(q.text)}</p>
+                        <span style="color:#5f6368; font-size:13px; white-space:nowrap; padding-top:2px;">អតិបរមា ${maxPoints} ពិន្ទុ</span>
+                    </div>
+                    ${optionsHtml}
+                    <div class="card-actions">
+                        <button class="btn btn-secondary btn-small" onclick="editQuestion('${q.id}')">✏️ កែប្រែ</button>
+                        <button class="btn btn-danger btn-small" onclick="deleteQuestion('${q.id}')">🗑️ លុប</button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function saveQuestionFromForm() {
+            const ex = getExerciseById(currentEditingExerciseId);
+            if (!ex) return;
+
+            const text = document.getElementById('q-text').value.trim();
+            const optA = document.getElementById('opt-A').value.trim();
+            const optB = document.getElementById('opt-B').value.trim();
+            const optC = document.getElementById('opt-C').value.trim();
+            const optD = document.getElementById('opt-D').value.trim();
+            const correctRadio = document.querySelector('input[name="correct-option"]:checked');
+
+            if (text === "") {
+                alert("សូមបញ្ចូលអត្ថបទសំណួរ!");
+                return;
+            }
+            if (optA === "" || optB === "") {
+                alert("សូមបញ្ចូលយ៉ាងហោចណាស់ជម្រើស A និង B!");
+                return;
+            }
+            if (!correctRadio) {
+                alert("សូមជ្រើសរើសចម្លើយត្រឹមត្រូវ!");
+                return;
+            }
+
+            const options = { A: optA, B: optB, C: optC, D: optD };
+            const correct = correctRadio.value;
+
+            if (options[correct] === "") {
+                alert("ចម្លើយត្រឹមត្រូវដែលបានជ្រើសរើសមិនអាចទទេបានទេ!");
+                return;
+            }
+
+            const optionPoints = {};
+            for (const letter of ['A', 'B', 'C', 'D']) {
+                if (options[letter] === "") continue;
+                const raw = parseFloat(document.getElementById('opt-' + letter + '-points').value);
+                optionPoints[letter] = isNaN(raw) ? 0 : raw;
+            }
+            if (!(optionPoints[correct] > 0)) optionPoints[correct] = 1;
+
+            const editingId = document.getElementById('edit-question-id').value;
+            const exercises = loadExercises_();
+            const target = exercises.find(e => e.id === ex.id);
+            if (!target) return;
+            target.questions = target.questions || [];
+
+            if (editingId) {
+                const idx = target.questions.findIndex(q => q.id === editingId);
+                const questionData = { id: editingId, text, options, correct, optionPoints };
+                if (idx >= 0) target.questions[idx] = questionData; else target.questions.push(questionData);
+            } else {
+                target.questions.push({ id: uid_('q'), text, options, correct, optionPoints });
+            }
+
+            saveExercisesToStorage_(exercises);
+            resetQuestionForm();
+            renderQuestionManager();
+        }
+
+        function editQuestion(id) {
+            const ex = getExerciseById(currentEditingExerciseId);
+            if (!ex) return;
+            const q = (ex.questions || []).find(item => item.id === id);
+            if (!q) return;
+
+            document.getElementById('edit-question-id').value = q.id;
+            document.getElementById('q-text').value = q.text;
+            document.getElementById('opt-A').value = q.options.A || "";
+            document.getElementById('opt-B').value = q.options.B || "";
+            document.getElementById('opt-C').value = q.options.C || "";
+            document.getElementById('opt-D').value = q.options.D || "";
+
+            for (const letter of ['A', 'B', 'C', 'D']) {
+                document.getElementById('opt-' + letter + '-points').value = getOptionPoints_(q, letter);
+            }
+
+            document.querySelectorAll('input[name="correct-option"]').forEach(radio => {
+                radio.checked = radio.value === q.correct;
+            });
+
+            document.getElementById('question-form-title').innerText = "✏️ កែប្រែសំណួរ";
+            document.getElementById('save-question-btn').innerText = "រក្សាទុកការកែប្រែ";
+            document.getElementById('cancel-edit-btn').classList.remove('hidden');
+
+            document.getElementById('question-editor-view').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteQuestion(id) {
+            const ex = getExerciseById(currentEditingExerciseId);
+            if (!ex) return;
+            if (!confirm("តើអ្នកពិតជាចង់លុបសំណួរនេះមែនទេ?")) return;
+
+            const exercises = loadExercises_();
+            const target = exercises.find(e => e.id === ex.id);
+            if (!target) return;
+            target.questions = (target.questions || []).filter(q => q.id !== id);
+            saveExercisesToStorage_(exercises);
+            renderQuestionManager();
+        }
+
+        function resetQuestionForm() {
+            document.getElementById('edit-question-id').value = "";
+            document.getElementById('q-text').value = "";
+            document.getElementById('opt-A').value = "";
+            document.getElementById('opt-B').value = "";
+            document.getElementById('opt-C').value = "";
+            document.getElementById('opt-D').value = "";
+            document.getElementById('opt-A-points').value = "1";
+            document.getElementById('opt-B-points').value = "0";
+            document.getElementById('opt-C-points').value = "0";
+            document.getElementById('opt-D-points').value = "0";
+            document.querySelectorAll('input[name="correct-option"]').forEach(radio => radio.checked = false);
+            document.getElementById('question-form-title').innerText = "➕ បន្ថែមសំណួរថ្មី";
+            document.getElementById('save-question-btn').innerText = "រក្សាទុកសំណួរ";
+            document.getElementById('cancel-edit-btn').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
