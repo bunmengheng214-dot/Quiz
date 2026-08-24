@@ -10,30 +10,112 @@
         .container { 
             max-width: 800px; 
             margin: 0 auto; 
-            background: white; 
+            background: #f6f6f6; 
             padding: 30px; 
             border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            box-shadow: none; 
+        }
+        .login-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto 18px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #d9d9d9;
+        }
+        .brand-people {
+            font-size: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            background: #f0f0f0;
+            border-radius: 50%;
+        }
+        .brand-school {
+            font-size: 42px;
+            color: #1f7ae0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+        }
+        .brand-title {
+            font-size: 38px;
+            font-weight: 700;
+            color: #1d78d6;
+            letter-spacing: 0.02em;
         }
         h1 { color: #1a73e8; text-align: center; border-bottom: 2px solid #e8eaed; padding-bottom: 15px; }
         h2 { color: #202124; text-align: center; }
+        .login-panel {
+            padding: 16px;
+            border-radius: 12px;
+            border-left: 4px solid #f2b21d;
+            background: #f3f3f3;
+        }
+        .login-panel h2 {
+            font-size: 20px;
+            text-align: left;
+            margin: 0 0 16px;
+            color: #111827;
+        }
         .hidden { display: none !important; }
+        .question-card-success { border-left-color: #34a853; }
+        .teacher-login-error { color: #ea4335; font-weight: bold; }
+        .inline-actions { display:flex; gap:10px; }
+        .muted-text, .muted-text-center { color: #5f6368; }
+        .muted-text-center { text-align: center; }
+        .quiz-instructions { color: #ea4335; }
+        .text-center-card { text-align: center; border-left-color: #fbbc04; }
+        .question-card-warning { border-left-color:#fbbc04; }
+        .result-return-btn { margin-top: 15px; }
+        .teacher-main-title { margin: 0; border: none; }
+        .teacher-note { margin:0; color:#5f6368; }
+        .teacher-filter-label { font-weight:normal; margin-right:6px; }
+        .teacher-inline-select { width:auto; display:inline-block; }
+        .section-title-tight { margin-top:0; }
+        .form-group-tight { margin-bottom: 10px; }
+        .compact-help-text { color:#5f6368; font-size:13px; margin-top:10px; margin-bottom:0; }
+        .no-top-margin { margin-top:0; }
+        .tight-header-flex { margin-bottom: 10px; }
+        .section-title-zero { margin:0; }
+        .question-editor-title { text-align:left; }
+        .back-to-list-btn { width:auto; margin-bottom: 15px; }
+        .option-input-flex { flex:1; }
+        .option-points-input { width: 60px; text-align:center; flex:none; }
+        .editor-help-text { color:#5f6368; font-size:13px; margin: 8px 0 0 0; }
+        .editor-actions { display:flex; gap:10px; }
+        .import-file-input { margin-bottom:12px; }
+        .form-group-short { margin-bottom:10px; }
+        .exercise-rename-input { flex:1; }
+        .exercise-class-select { flex:1; min-width: 120px; }
+        .question-title-inline { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+        .question-title-inline .question-title { margin:0; flex:1; }
+        .question-title-inline .question-score-badge { color:#5f6368; font-size:13px; white-space:nowrap; padding-top:2px; }
+        .question-option-item { display:flex; justify-content:space-between; gap:10px; padding: 3px 0; }
+        .question-option-points { color:#5f6368; white-space:nowrap; }
         
         /* Form & Buttons */
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        .form-group { margin-bottom: 14px; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; }
         input[type="text"], input[type="password"], textarea, select { 
             width: 100%; 
             padding: 12px; 
-            border: 1px solid #ccc; 
+            border: 1px solid #f5b11a; 
             border-radius: 6px; 
             box-sizing: border-box; 
             font-family: 'Battambang', sans-serif;
             font-size: 16px;
+            background: #fff;
+            color: #1f2937;
         }
         textarea { resize: vertical; min-height: 60px; }
         .btn { 
-            padding: 12px 24px; 
+            padding: 12px 20px; 
             background: #1a73e8; 
             color: white; 
             border: none; 
@@ -43,15 +125,32 @@
             font-family: 'Battambang', sans-serif;
             transition: background 0.3s;
             width: 100%;
+            font-weight: 700;
+            box-shadow: 0 4px 0 rgba(17, 24, 39, 0.1);
         }
         .btn:hover { background: #1557b0; }
         .btn-teacher { background: #34a853; margin-top: 15px; }
         .btn-teacher:hover { background: #2b803e; }
+        .large-btn { margin-top: 14px; }
+        .btn.teacher-login-btn {
+            margin-top: 18px;
+            margin-left: auto;
+            background: #d9d9d9;
+            color: #1f2937;
+            border: 2px solid #c4c4c4;
+            border-radius: 6px;
+            font-size: 14px;
+            display: block;
+            width: fit-content;
+            padding: 10px 14px;
+        }
+        .teacher-login-btn:hover { background: #d0d0d0; }
         .btn-danger { background: #ea4335; width: auto; }
         .btn-danger:hover { background: #c5221f; }
         .btn-secondary { background: #5f6368; width: auto; }
         .btn-secondary:hover { background: #3f4448; }
         .btn-small { padding: 8px 14px; font-size: 14px; width: auto; margin-left: 8px; }
+
         
         /* Quiz Styling */
         .question-card { 
