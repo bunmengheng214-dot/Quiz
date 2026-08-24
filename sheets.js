@@ -1,6 +1,6 @@
 const { google } = require('googleapis');
 
-const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
+const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID || '1y2gspAeawDir9VmmSHi_rqaIvKor9qWXQg_hFvwSdIU';
 const SERVICE_ACCOUNT_EMAIL = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL;
 const SERVICE_ACCOUNT_PRIVATE_KEY = (process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY || '').replace(/\\n/g, '\n');
 
@@ -191,13 +191,4 @@ async function handler(req, res) {
   }
 }
 
-module.exports = {
-  saveScore,
-  getScores,
-  checkTeacherPassword,
-  getTeacherPassword,
-  saveTeacherPassword,
-  getExercises,
-  saveExercises,
-  default: handler,
-};
+module.exports = handler;
