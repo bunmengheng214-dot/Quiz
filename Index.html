@@ -5,45 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>physics quiz</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="bookremovebg-preview.png">
 </head>
 <body>
     <div class="container">
         <!-- Login Section -->
         <div id="login-section">
-            <h1>physics quiz​</h1>
-            <div class="question-card" style="border-left-color: #34a853;">
+            <div class="login-brand">
+                
+                <span class="brand-title">physics quiz</span>
+            </div>
+            <div class="question-card question-card-success">
                 <h2>សូមចុះឈ្មោះមុនពេលធ្វើការប្រឡង</h2>
                 <div class="form-group">
                     <label for="student-name">បញ្ចូលឈ្មោះរបស់អ្នក៖</label>
-                    <input type="text" id="student-name" placeholder="ឧទាហរណ៍៖ សុខ សាន្ត...">
+                    <input type="text" id="student-name" aria-label="Student name" title="Student name" placeholder="ឧទាហរណ៍៖ សុខ សាន្ត...">
                 </div>
                 <div class="form-group">
                     <label for="student-class">ជ្រើសរើសថ្នាក់៖</label>
-                    <select id="student-class">
+                    <select id="student-class" aria-label="Student class" title="Student class">
                         <option value="">-- ជ្រើសរើសថ្នាក់ --</option>
                         <option value="10">ថ្នាក់ទី 10</option>
                         <option value="11">ថ្នាក់ទី 11</option>
                         <option value="12">ថ្នាក់ទី 12</option>
                     </select>
                 </div>
-                <button class="btn" onclick="goToExerciseSelect()">ចូលរួមធ្វើលំហាត់</button>
+                <button class="btn large-btn" onclick="goToExerciseSelect()">ចូលរួមធ្វើលំហាត់</button>
             </div>
-            <button class="btn btn-teacher" onclick="showTeacherLogin()">👨‍🏫 ចូលគណនីគ្រូ (មើលពិន្ទុ / កែលំហាត់)</button>
+            <button class="btn btn-teacher teacher-login-btn" onclick="showTeacherLogin()"> ចូលគណនីគ្រូ (មើលពិន្ទុ / កែលំហាត់)</button>
         </div>
 
         <!-- Teacher Login Section -->
         <div id="teacher-login-section" class="hidden">
-            <h1>👨‍🏫 ចូលគណនីគ្រូ</h1>
-            <div class="question-card" style="border-left-color: #34a853;">
+            <h1>ចូលគណនីគ្រូ</h1>
+            <div class="question-card question-card-success">
                 <div class="form-group">
                     <label for="teacher-password">លេខកូដសម្ងាត់គ្រូ៖</label>
-                    <input type="password" id="teacher-password" placeholder="បញ្ចូលលេខកូដសម្ងាត់..." onkeydown="if(event.key==='Enter'){submitTeacherLogin();}">
+                    <input type="password" id="teacher-password" aria-label="Teacher password" title="Teacher password" placeholder="បញ្ចូលលេខកូដសម្ងាត់..." onkeydown="if(event.key==='Enter'){submitTeacherLogin();}">
                 </div>
-                <p id="teacher-login-error" class="hidden" style="color: #ea4335; font-weight: bold;">លេខកូដមិនត្រឹមត្រូវទេ! សូមព្យាយាមម្តងទៀត។</p>
-                <div style="display:flex; gap:10px;">
+                <p id="teacher-login-error" class="hidden teacher-login-error">លេខកូដមិនត្រឹមត្រូវទេ! សូមព្យាយាមម្តងទៀត។</p>
+                <div class="inline-actions">
                     <button class="btn" onclick="submitTeacherLogin()">ចូល</button>
-                    <button class="btn btn-secondary" onclick="cancelTeacherLogin()">ត្រឡប់ក្រោយ</button>
+                    <button class="btn btn-secondary" onclick="cancelTeacherLogin()">ត្រឡង់ក្រោយ</button>
                 </div>
             </div>
         </div>
@@ -51,15 +56,15 @@
         <!-- Exercise Selection (Student) -->
         <div id="exercise-select-section" class="hidden">
             <h1>ជ្រើសរើសលំហាត់</h1>
-            <h3 id="select-welcome-message" style="color: #5f6368; text-align: center;"></h3>
+            <h3 id="select-welcome-message" class="muted-text-center"></h3>
             <div class="exercise-grid" id="exercise-grid"></div>
         </div>
 
         <!-- Quiz Section -->
         <div id="quiz-section" class="hidden">
             <h1 id="quiz-exercise-title">សំណួរត្រីកោណមាត្រ</h1>
-            <h3 id="welcome-message" style="color: #5f6368;"></h3>
-            <p id="quiz-instructions" style="color: #ea4335;"></p>
+            <h3 id="welcome-message" class="muted-text"></h3>
+            <p id="quiz-instructions" class="quiz-instructions"></p>
 
             <form id="quiz-form">
                 <div id="quiz-questions-container"></div>
@@ -70,25 +75,25 @@
         <!-- Result Section -->
         <div id="result-section" class="hidden">
             <h1>លទ្ធផលរបស់អ្នក</h1>
-            <div class="question-card" style="text-align: center; border-left-color: #fbbc04;">
+            <div class="question-card question-card-warning text-center-card">
                 <h3 id="result-name"></h3>
                 <div class="score-display" id="score-display">0/100</div>
                 <p>ពិន្ទុរបស់អ្នកត្រូវបានបញ្ជូនទៅកាន់គ្រូដោយស្វ័យប្រវត្តិ។</p>
-                <button class="btn btn-secondary" style="margin-top: 15px;" onclick="location.reload()">ត្រឡប់ទៅទំព័រដើម</button>
+                <button class="btn btn-secondary result-return-btn" onclick="location.reload()">ត្រឡប់ទៅទំព័រដើម</button>
             </div>
         </div>
 
         <!-- Teacher Dashboard -->
         <div id="teacher-section" class="hidden">
             <div class="header-flex">
-                <h1 style="margin: 0; border: none;">ផ្ទាំងគ្រប់គ្រងគ្រូ</h1>
+                <h1 class="teacher-main-title">ផ្ទាំងសម្រាប់គ្រូ</h1>
                 <div>
                     <button class="btn btn-secondary" onclick="location.reload()">ចាកចេញ</button>
                 </div>
             </div>
 
-            <div class="question-card" style="border-left-color:#fbbc04;">
-                <p style="margin:0; color:#5f6368;">⚠️ កំណែនេះមិនប្រើម៉ាស៊ីនមេទេ ទិន្នន័យទាំងអស់ (លំហាត់ / ពិន្ទុ) ត្រូវបានរក្សាទុកនៅលើកម្មវិធីរុករកតែប៉ុណ្ណោះ។ ប្រសិនបើសិស្សប្រើឧបករណ៍ផ្សេងគ្នា ទិន្នន័យរបស់ពួកគេនឹងមិនបង្ហាញនៅទីនេះទេ លុះត្រាតែអ្នកនាំចូល (Import) ពួកគេ។ សូមប្រើប៊ូតុង "នាំចេញទិន្នន័យ" ជាទៀងទាត់ដើម្បីបម្រុងទុក។</p>
+            <div class="question-card question-card-warning">
+                <p class="teacher-note">ទិន្នន័យពិន្ទុ និងលំហាត់ត្រូវបានរក្សាទុកក្នុង Google Sheet តាមរយៈ Vercel។ ប្រសិនបើ API មិនទាន់បានកំណត់ទេ កម្មវិធីនឹងប្រើទិន្នន័យក្នុងកម្មវិធីរុករកជាបណ្តោះអាសន្ន។</p>
             </div>
 
             <div class="tabs">
@@ -101,8 +106,8 @@
             <div id="tab-scores" class="tab-content">
                 <div class="header-flex">
                     <div>
-                        <label for="scores-class-filter" style="font-weight:normal; margin-right:6px;">ត្រងតាមថ្នាក់៖</label>
-                        <select id="scores-class-filter" onchange="loadTeacherData()" style="width:auto; display:inline-block;">
+                        <label for="scores-class-filter" class="teacher-filter-label">ត្រងតាមថ្នាក់៖</label>
+                        <select id="scores-class-filter" aria-label="Filter scores by class" title="Filter scores by class" class="teacher-inline-select" onchange="loadTeacherData()">
                             <option value="all">គ្រប់ថ្នាក់ទាំងអស់</option>
                             <option value="10">ថ្នាក់ទី 10</option>
                             <option value="11">ថ្នាក់ទី 11</option>
@@ -137,29 +142,29 @@
                 <!-- Exercise List View -->
                 <div id="exercise-list-view">
                     <div class="question-card manage-card">
-                        <h2 style="margin-top:0;">➕ បង្កើតលំហាត់ថ្មី</h2>
-                        <div class="form-group" style="margin-bottom: 10px;">
+                        <h2 class="section-title-tight">➕ បង្កើតលំហាត់ថ្មី</h2>
+                        <div class="form-group form-group-tight">
                             <label for="new-exercise-title">ឈ្មោះលំហាត់៖</label>
-                            <input type="text" id="new-exercise-title" placeholder="ឧទាហរណ៍៖ លំហាត់ទី 3">
+                            <input type="text" id="new-exercise-title" aria-label="New exercise title" title="New exercise title" placeholder="ឧទាហរណ៍៖ លំហាត់ទី 3">
                         </div>
-                        <div class="form-group" style="margin-bottom: 10px;">
+                        <div class="form-group form-group-tight">
                             <label for="new-exercise-class">សម្រាប់ថ្នាក់៖</label>
-                            <select id="new-exercise-class">
+                            <select id="new-exercise-class" aria-label="Exercise target class" title="Exercise target class">
                                 <option value="all">គ្រប់ថ្នាក់ទាំងអស់</option>
                                 <option value="10">ថ្នាក់ទី 10</option>
                                 <option value="11">ថ្នាក់ទី 11</option>
                                 <option value="12">ថ្នាក់ទី 12</option>
                             </select>
                         </div>
-                        <button class="btn btn-teacher" style="margin-top:0;" onclick="createExercise()">បង្កើតលំហាត់</button>
-                        <p style="color:#5f6368; font-size:13px; margin-top:10px; margin-bottom:0;">💡 ពិន្ទុសរុបនៃលំហាត់ត្រូវបានគណនាដោយស្វ័យប្រវត្តិ ដោយផ្អែកលើពិន្ទុដែលអ្នកកំណត់ឱ្យសំណួរនីមួយៗ (មើលទំព័រកែសំណួរ)។</p>
+                        <button class="btn btn-teacher no-top-margin" onclick="createExercise()">បង្កើតលំហាត់</button>
+                        <p class="compact-help-text">💡 ពិន្ទុសរុបនៃលំហាត់ត្រូវបានគណនាដោយស្វ័យប្រវត្តិ ដោយផ្អែកលើពិន្ទុដែលអ្នកកំណត់ឱ្យសំណួរនីមួយៗ (មើលទំព័រកែសំណួរ)។</p>
                     </div>
 
-                    <div class="header-flex" style="margin-bottom: 10px;">
-                        <h2 style="margin:0;">បញ្ជីលំហាត់ (<span id="exercise-count">0</span>)</h2>
+                    <div class="header-flex tight-header-flex">
+                        <h2 class="section-title-zero">បញ្ជីលំហាត់ (<span id="exercise-count">0</span>)</h2>
                         <div>
-                            <label for="manage-class-filter" style="font-weight:normal; margin-right:6px;">ត្រងតាមថ្នាក់៖</label>
-                            <select id="manage-class-filter" onchange="renderExerciseManageList()" style="width:auto; display:inline-block;">
+                            <label for="manage-class-filter" class="teacher-filter-label">ត្រងតាមថ្នាក់៖</label>
+                            <select id="manage-class-filter" aria-label="Filter exercises by class" title="Filter exercises by class" class="teacher-inline-select" onchange="renderExerciseManageList()">
                                 <option value="all">គ្រប់ថ្នាក់ទាំងអស់</option>
                                 <option value="10">ថ្នាក់ទី 10</option>
                                 <option value="11">ថ្នាក់ទី 11</option>
@@ -172,47 +177,47 @@
 
                 <!-- Question Editor View (for one exercise) -->
                 <div id="question-editor-view" class="hidden">
-                    <button class="btn btn-secondary" style="width:auto; margin-bottom: 15px;" onclick="backToExerciseList()">⬅ ត្រឡប់ទៅបញ្ជីលំហាត់</button>
-                    <h2 id="question-editor-title" style="text-align:left;"></h2>
+                    <button class="btn btn-secondary back-to-list-btn" onclick="backToExerciseList()">⬅ ត្រឡប់ទៅបញ្ជីលំហាត់</button>
+                    <h2 id="question-editor-title" class="question-editor-title"></h2>
 
                     <div class="question-card manage-card">
-                        <h3 style="margin-top:0;" id="question-form-title">➕ បន្ថែមសំណួរថ្មី</h3>
-                        <input type="hidden" id="edit-question-id" value="">
+                        <h3 class="section-title-tight" id="question-form-title">➕ បន្ថែមសំណួរថ្មី</h3>
+                        <input type="hidden" id="edit-question-id" value="" aria-hidden="true">
                         <div class="form-group">
                             <label for="q-text">អត្ថបទសំណួរ៖</label>
-                            <textarea id="q-text" placeholder="វាយសំណួរនៅទីនេះ..."></textarea>
+                            <textarea id="q-text" aria-label="Question text" title="Question text" placeholder="វាយសំណួរនៅទីនេះ..."></textarea>
                         </div>
                         <div class="form-group">
                             <label>ជម្រើសចម្លើយ (សម្គាល់ចម្លើយត្រឹមត្រូវ ហើយកំណត់ពិន្ទុសម្រាប់ជម្រើសនីមួយៗ)៖</label>
                             <div class="option-row">
                                 <span>A</span>
-                                <input type="radio" name="correct-option" value="A">
-                                <input type="text" id="opt-A" placeholder="ចម្លើយ A" style="flex:1;">
-                                <input type="text" id="opt-A-points" placeholder="ពិន្ទុ" value="1" style="width: 60px; text-align:center; flex:none;">
+                                <input type="radio" name="correct-option" value="A" aria-label="Select answer A" title="Select answer A">
+                                <input type="text" id="opt-A" aria-label="Answer A" title="Answer A" class="option-input-flex" placeholder="ចម្លើយ A">
+                                <input type="text" id="opt-A-points" aria-label="Score for answer A" title="Score for answer A" class="option-points-input" placeholder="ពិន្ទុ" value="1">
                             </div>
                             <div class="option-row">
                                 <span>B</span>
-                                <input type="radio" name="correct-option" value="B">
-                                <input type="text" id="opt-B" placeholder="ចម្លើយ B" style="flex:1;">
-                                <input type="text" id="opt-B-points" placeholder="ពិន្ទុ" value="0" style="width: 60px; text-align:center; flex:none;">
+                                <input type="radio" name="correct-option" value="B" aria-label="Select answer B" title="Select answer B">
+                                <input type="text" id="opt-B" aria-label="Answer B" title="Answer B" class="option-input-flex" placeholder="ចម្លើយ B">
+                                <input type="text" id="opt-B-points" aria-label="Score for answer B" title="Score for answer B" class="option-points-input" placeholder="ពិន្ទុ" value="0">
                             </div>
                             <div class="option-row">
                                 <span>C</span>
-                                <input type="radio" name="correct-option" value="C">
-                                <input type="text" id="opt-C" placeholder="ចម្លើយ C" style="flex:1;">
-                                <input type="text" id="opt-C-points" placeholder="ពិន្ទុ" value="0" style="width: 60px; text-align:center; flex:none;">
+                                <input type="radio" name="correct-option" value="C" aria-label="Select answer C" title="Select answer C">
+                                <input type="text" id="opt-C" aria-label="Answer C" title="Answer C" class="option-input-flex" placeholder="ចម្លើយ C">
+                                <input type="text" id="opt-C-points" aria-label="Score for answer C" title="Score for answer C" class="option-points-input" placeholder="ពិន្ទុ" value="0">
                             </div>
                             <div class="option-row">
                                 <span>D</span>
-                                <input type="radio" name="correct-option" value="D">
-                                <input type="text" id="opt-D" placeholder="ចម្លើយ D" style="flex:1;">
-                                <input type="text" id="opt-D-points" placeholder="ពិន្ទុ" value="0" style="width: 60px; text-align:center; flex:none;">
+                                <input type="radio" name="correct-option" value="D" aria-label="Select answer D" title="Select answer D">
+                                <input type="text" id="opt-D" aria-label="Answer D" title="Answer D" class="option-input-flex" placeholder="ចម្លើយ D">
+                                <input type="text" id="opt-D-points" aria-label="Score for answer D" title="Score for answer D" class="option-points-input" placeholder="ពិន្ទុ" value="0">
                             </div>
-                            <p style="color:#5f6368; font-size:13px; margin: 8px 0 0 0;">💡 ធម្មតាចម្លើយត្រឹមត្រូវគួរមានពិន្ទុខ្ពស់បំផុត ប៉ុន្តែអ្នកអាចផ្តល់ពិន្ទុមួយចំនួនដល់ចម្លើយផ្សេងទៀតបាន (ពិន្ទុផ្នែក)។</p>
+                            <p class="editor-help-text">💡 ធម្មតាចម្លើយត្រឹមត្រូវគួរមានពិន្ទុខ្ពស់បំផុត ប៉ុន្តែអ្នកអាចផ្តល់ពិន្ទុមួយចំនួនដល់ចម្លើយផ្សេងទៀតបាន (ពិន្ទុផ្នែក)។</p>
                         </div>
-                        <div style="display:flex; gap:10px;">
-                            <button class="btn btn-teacher" style="margin-top:0;" onclick="saveQuestionFromForm()" id="save-question-btn">រក្សាទុកសំណួរ</button>
-                            <button class="btn btn-secondary hidden" style="margin-top:0;" id="cancel-edit-btn" onclick="resetQuestionForm()">បោះបង់កែប្រែ</button>
+                        <div class="editor-actions">
+                            <button class="btn btn-teacher no-top-margin" onclick="saveQuestionFromForm()" id="save-question-btn">រក្សាទុកសំណួរ</button>
+                            <button class="btn btn-secondary hidden no-top-margin" id="cancel-edit-btn" onclick="resetQuestionForm()">បោះបង់កែប្រែ</button>
                         </div>
                     </div>
 
@@ -224,22 +229,22 @@
             <!-- Data (Export/Import) Tab -->
             <div id="tab-data" class="tab-content hidden">
                 <div class="question-card manage-card">
-                    <h2 style="margin-top:0;">⬇️ នាំចេញទិន្នន័យ (Export)</h2>
-                    <p style="color:#5f6368;">ទាញយកឯកសារបម្រុងទុកមួយ (JSON) មានលំហាត់ទាំងអស់ និងពិន្ទុសិស្សទាំងអស់ពីឧបករណ៍នេះ។ ប្រើវាដើម្បីផ្ទេរទិន្នន័យទៅឧបករណ៍ផ្សេង ឬដើម្បីបម្រុងទុក។</p>
-                    <button class="btn btn-teacher" style="margin-top:0;" onclick="exportAllData()">នាំចេញទិន្នន័យទាំងអស់ (JSON)</button>
+                    <h2 class="section-title-tight">⬇️ នាំចេញទិន្នន័យ (Export)</h2>
+                    <p class="muted-text">ទាញយកឯកសារបម្រុងទុកមួយ (JSON) មានលំហាត់ទាំងអស់ និងពិន្ទុសិស្សទាំងអស់ពីឧបករណ៍នេះ។ ប្រើវាដើម្បីផ្ទេរទិន្នន័យទៅឧបករណ៍ផ្សេង ឬដើម្បីបម្រុងទុក។</p>
+                    <button class="btn btn-teacher no-top-margin" onclick="exportAllData()">នាំចេញទិន្នន័យទាំងអស់ (JSON)</button>
                 </div>
                 <div class="question-card manage-card">
-                    <h2 style="margin-top:0;">⬆️ នាំចូលទិន្នន័យ (Import)</h2>
-                    <p style="color:#5f6368;">ជ្រើសរើសឯកសារ JSON ដែលបាននាំចេញពីឧបករណ៍មួយផ្សេងទៀត។ លំហាត់ថ្មីៗនិងពិន្ទុនឹងបញ្ចូលបន្ថែម (មិនលុបទិន្នន័យបច្ចុប្បន្នទេ)។</p>
-                    <input type="file" id="import-file-input" accept="application/json" style="margin-bottom:12px;">
-                    <button class="btn btn-teacher" style="margin-top:0;" onclick="importAllData()">នាំចូលទិន្នន័យ</button>
+                    <h2 class="section-title-tight">⬆️ នាំចូលទិន្នន័យ (Import)</h2>
+                    <p class="muted-text">ជ្រើសរើសឯកសារ JSON ដែលបាននាំចេញពីឧបករណ៍មួយផ្សេងទៀត។ លំហាត់ថ្មីៗនិងពិន្ទុនឹងបញ្ចូលបន្ថែម (មិនលុបទិន្នន័យបច្ចុប្បន្នទេ)។</p>
+                    <input type="file" id="import-file-input" aria-label="Import JSON file" title="Import JSON file" class="import-file-input" accept="application/json">
+                    <button class="btn btn-teacher no-top-margin" onclick="importAllData()">នាំចូលទិន្នន័យ</button>
                 </div>
                 <div class="question-card manage-card">
-                    <h2 style="margin-top:0;">🔑 ប្តូរលេខកូដសម្ងាត់គ្រូ</h2>
-                    <div class="form-group" style="margin-bottom:10px;">
-                        <input type="text" id="new-teacher-password" placeholder="លេខកូដសម្ងាត់ថ្មី">
+                    <h2 class="section-title-tight">🔑 ប្តូរលេខកូដសម្ងាត់គ្រូ</h2>
+                    <div class="form-group form-group-short">
+                        <input type="text" id="new-teacher-password" aria-label="New teacher password" title="New teacher password" placeholder="លេខកូដសម្ងាត់ថ្មី">
                     </div>
-                    <button class="btn btn-teacher" style="margin-top:0;" onclick="changeTeacherPassword()">រក្សាទុកលេខកូដថ្មី</button>
+                    <button class="btn btn-teacher no-top-margin" onclick="changeTeacherPassword()">រក្សាទុកលេខកូដថ្មី</button>
                 </div>
             </div>
         </div>
@@ -276,6 +281,10 @@
                     .withSuccessHandler(() => console.log('Exercises synced to Google Sheet.'))
                     .withFailureHandler(() => console.warn('Exercises local sync to Google Sheets failed.'))
                     .saveExercisesServer(exercises);
+            } else {
+                callSheetsApi('saveExercises', { exercises })
+                    .then(() => console.log('Exercises synced to Vercel Sheets API.'))
+                    .catch(() => console.warn('Exercises sync to Vercel Sheets API failed.'));
             }
         }
 
@@ -295,6 +304,10 @@
                         window.google.script.run
                             .withFailureHandler(() => console.warn('Initial seed sync to Google Sheets failed.'))
                             .saveExercisesServer(seeded);
+                    } else {
+                        callSheetsApi('saveExercises', { exercises: seeded })
+                            .then(() => console.log('Initial seed synced to Vercel Sheets API.'))
+                            .catch(() => console.warn('Initial seed sync to Vercel Sheets API failed.'));
                     }
                     return seeded;
                 }
@@ -310,6 +323,21 @@
                         })
                         .withFailureHandler(() => console.warn('Google Sheets exercise load failed; using local copy.'))
                         .getExercisesServer();
+                } else {
+                    callSheetsApi('getExercises')
+                        .then((result) => {
+                            if (result && Array.isArray(result.exercises) && result.exercises.length > 0) {
+                                localStorage.setItem(LS_EXERCISES, JSON.stringify(result.exercises));
+                                exercisesCache = result.exercises;
+                                if (!document.getElementById('exercise-select-section').classList.contains('hidden')) {
+                                    renderExerciseSelect();
+                                }
+                                if (!document.getElementById('tab-exercises').classList.contains('hidden')) {
+                                    renderExerciseManageList();
+                                }
+                            }
+                        })
+                        .catch(() => console.warn('Vercel Sheets API exercise load failed; using local copy.'));
                 }
                 return Array.isArray(parsed) ? parsed : [];
             } catch (e) {
@@ -364,12 +392,43 @@
 
         const SHEETS_API_PATH = '/api/sheets';
 
+        function isStaticLocalPreviewHost() {
+            const host = window.location.host || '';
+            return host === 'localhost:8000' || host === '127.0.0.1:8000' || host === 'localhost:8080' || host === '127.0.0.1:8080' || window.location.protocol === 'file:';
+        }
+
+        // NOTE: We used to "ping" /api/sheets with a 600ms-timeout OPTIONS
+        // request before every real call, and cache a negative result for
+        // the whole session. Serverless cold starts (this function loads the
+        // heavy `googleapis` package) routinely take longer than 600ms, so
+        // that pre-check would time out on a teacher's very first save,
+        // permanently mark the Sheets API as "unavailable" for their whole
+        // session, and silently fall back to that browser's own local
+        // storage from then on -- which is why exercises never reached
+        // other students. We now just attempt the real request directly,
+        // with a generous timeout, and never cache a permanent "unavailable"
+        // verdict.
         async function callSheetsApi(action, payload = {}) {
-            const response = await fetch(SHEETS_API_PATH, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action, ...payload })
-            });
+            if (isStaticLocalPreviewHost()) {
+                throw new Error('Sheets API is unavailable in this environment.');
+            }
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+
+            let response;
+            try {
+                response = await fetch(SHEETS_API_PATH, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action, ...payload }),
+                    signal: controller.signal
+                });
+            } catch (error) {
+                throw new Error(error && error.name === 'AbortError' ? 'Request to Sheets API timed out.' : (error.message || 'Request failed.'));
+            } finally {
+                clearTimeout(timeoutId);
+            }
 
             if (!response.ok) {
                 const text = await response.text();
@@ -452,6 +511,10 @@
             const classInput = document.getElementById('student-class').value;
             if (nameInput === "") {
                 alert("សូមបញ្ចូលឈ្មោះរបស់អ្នកជាមុនសិន!");
+                return;
+            }
+            if (classInput === "") {
+                alert("សូមជ្រើសរើសថ្នាក់របស់អ្នកជាមុនសិន!");
                 return;
             }
             if (classInput === "") {
@@ -592,13 +655,13 @@
                     if (q.options[letter] === undefined || q.options[letter] === "") continue;
                     optionsHtml += `
                         <label class="option-label">
-                            <input type="radio" name="${q.id}" value="${letter}"> ${letter}. ${escapeHtml(q.options[letter])}
+                            <input type="radio" name="${q.id}" value="${letter}" aria-label="Select ${letter} for this question" title="Select ${letter} for this question"> ${letter}. ${escapeHtml(q.options[letter])}
                         </label>`;
                 }
                 card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
-                        <p class="question-title" style="margin:0; flex:1;">${escapeHtml(q.text)}</p>
-                        <span style="color:#5f6368; font-size:13px; white-space:nowrap; padding-top:2px;">${maxPoints} ពិន្ទុ</span>
+                    <div class="question-title-inline">
+                        <p class="question-title">${escapeHtml(q.text)}</p>
+                        <span class="question-score-badge">${maxPoints} ពិន្ទុ</span>
                     </div>
                     <div class="options">${optionsHtml}</div>
                 `;
@@ -964,22 +1027,22 @@
                     </div>
                     <div class="exercise-manage-icons">
                         <button class="icon-btn" onclick="toggleRename('${ex.id}')" title="ប្តូរឈ្មោះ">${editIconSvg}</button>
-                        <button class="icon-btn" onclick="toggleClassSelector('${ex.id}')" title="ប្តូរថ្នាក់">🏫</button>
+                        <button class="icon-btn" onclick="toggleClassSelector('${ex.id}')" title="ប្តូរថ្នាក់"><i class="fa-solid fa-door-open" aria-hidden="true"></i></button>
                         <button class="icon-btn" onclick="deleteExercise('${ex.id}')" title="លុប">${trashIconSvg}</button>
                     </div>
                     <button class="exercise-enter-btn" onclick="openQuestionEditor('${ex.id}')">កែលំហាត់</button>
                     <div class="exercise-rename-row hidden" id="rename-row-${ex.id}">
-                        <input type="text" id="rename-input-${ex.id}" value="${escapeHtml(ex.title)}" style="flex:1;">
-                        <button class="btn btn-teacher btn-small" style="margin-top:0;" onclick="saveRename('${ex.id}')">រក្សាទុក</button>
+                        <input type="text" id="rename-input-${ex.id}" value="${escapeHtml(ex.title)}" aria-label="Rename exercise ${escapeHtml(ex.title)}" title="Rename exercise ${escapeHtml(ex.title)}" class="exercise-rename-input">
+                        <button class="btn btn-teacher btn-small no-top-margin" onclick="saveRename('${ex.id}')">រក្សាទុក</button>
                     </div>
                     <div class="exercise-rename-row hidden" id="class-row-${ex.id}">
-                        <select id="class-select-${ex.id}" style="flex:1; min-width: 120px;">
+                        <select id="class-select-${ex.id}" aria-label="Change exercise class" title="Change exercise class" class="exercise-class-select">
                             <option value="all">គ្រប់ថ្នាក់</option>
                             <option value="10">ថ្នាក់ទី 10</option>
                             <option value="11">ថ្នាក់ទី 11</option>
                             <option value="12">ថ្នាក់ទី 12</option>
                         </select>
-                        <button class="btn btn-teacher btn-small" style="margin-top:0;" onclick="saveExerciseClass('${ex.id}')">រក្សាទុក</button>
+                        <button class="btn btn-teacher btn-small no-top-margin" onclick="saveExerciseClass('${ex.id}')">រក្សាទុក</button>
                     </div>
                 `;
 
@@ -1109,17 +1172,17 @@
                     if (q.options[letter] === undefined || q.options[letter] === "") continue;
                     const isCorrect = q.correct === letter;
                     const optPoints = getOptionPoints_(q, letter);
-                    optionsHtml += `<li style="display:flex; justify-content:space-between; gap:10px; padding: 3px 0;">
+                    optionsHtml += `<li class="question-option-item">
                         <span>${letter}. ${escapeHtml(q.options[letter])}${isCorrect ? "<span class='correct-tag'>ត្រឹមត្រូវ</span>" : ""}</span>
-                        <span style="color:#5f6368; white-space:nowrap;">${optPoints} ពិន្ទុ</span>
+                        <span class="question-option-points">${optPoints} ពិន្ទុ</span>
                     </li>`;
                 }
                 optionsHtml += "</ul>";
 
                 card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
-                        <p class="question-title" style="margin:0; flex:1;">${index + 1}. ${escapeHtml(q.text)}</p>
-                        <span style="color:#5f6368; font-size:13px; white-space:nowrap; padding-top:2px;">អតិបរមា ${maxPoints} ពិន្ទុ</span>
+                    <div class="question-title-inline">
+                        <p class="question-title">${index + 1}. ${escapeHtml(q.text)}</p>
+                        <span class="question-score-badge">អតិបរមា ${maxPoints} ពិន្ទុ</span>
                     </div>
                     ${optionsHtml}
                     <div class="card-actions">
